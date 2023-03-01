@@ -42,6 +42,26 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.squareup.okhttp</pattern>
+                            <shadedPattern>net.kunmc.lab.schemuploader.lib.com.squareup.okhttp</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons.lang3</pattern>
+                            <shadedPattern>net.kunmc.lab.schemuploader.lib.org.apache.commons.lang3</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>okio</pattern>
+                            <shadedPattern>net.kunmc.lab.schemuploader.lib.okio</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.kunmc.lab.commandlib</pattern>
+                            <shadedPattern>net.kunmc.lab.schemuploader.lib.commandlib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
             </plugin>
         </plugins>
         <resources>

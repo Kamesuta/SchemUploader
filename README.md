@@ -50,7 +50,7 @@ download:
   # ダウンロード元制限機能設定
   url-restriction:
     # ダウンロード元制限機能の有効化
-    enabled: true
+    enabled: false
     # ダウンロード用のURL制限のプレフィックス (Discordの添付ファイルURLの場合、cdn.から始まっていること、末尾に/を付けることに注意する)
     # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/

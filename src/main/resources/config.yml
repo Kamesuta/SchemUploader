@@ -1,0 +1,21 @@
+# アップロード用設定
+upload:
+  # アップロード機能の有効化
+  enabled: true
+  # アップロード用のDiscord Webhook URL
+  webhook-url: https://discord.com/api/webhooks/xxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# ダウンロード用設定
+download:
+  # ダウンロード機能の有効化
+  enabled: true
+  # ダウンロードファイルの最大サイズ (バイト) (-1で無制限)
+  max-size: 8388608 # 8MB
+  # ダウンロード元制限機能設定
+  url-restriction:
+    # ダウンロード元制限機能の有効化
+    enabled: true
+    # ダウンロード用のURL制限のプレフィックス (Discordの添付ファイルURLの場合、cdn.から始まっていること、末尾に/を付けることに注意する)
+    # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
+    prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
+    # ダウンロード用のURL制限場所の名前 (エラー時に案内が表示される)
+    name: Discord内の「#schem置き場」チャンネル

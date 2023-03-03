@@ -147,7 +147,7 @@ public class CommandListener {
 
             // URLのプレフィックスを確認
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
-                sender.sendMessage(Component.text(PluginConfig.downloadUrlName + " にあるファイルのみダウンロードできます").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text(PluginConfig.downloadUrlErrorMessage).color(NamedTextColor.RED));
                 return;
             }
 

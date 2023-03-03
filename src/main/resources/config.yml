@@ -17,5 +17,5 @@ download:
     # ダウンロード用のURL制限のプレフィックス (Discordの添付ファイルURLの場合、cdn.から始まっていること、末尾に/を付けることに注意する)
     # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
-    # ダウンロード用のURL制限場所の名前 (エラー時に案内が表示される)
-    name: Discord内の「#schem置き場」チャンネル
+    # ダウンロード用のURL制限に引っかかった場合に表示されるエラーメッセージ
+    error-message: Discord内の「#schem置き場」チャンネルにあるschematicファイルのみダウンロードできます。誤ったリンクをコピーしている可能性があります。URLを見直してください。

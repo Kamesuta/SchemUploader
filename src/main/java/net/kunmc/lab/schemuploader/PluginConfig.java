@@ -37,9 +37,9 @@ public class PluginConfig {
     public static String downloadUrlPrefix;
 
     /**
-     * ダウンロード用のURL制限場所の名前
+     * ダウンロード用のURL制限に引っかかった場合に表示されるエラーメッセージ
      */
-    public static String downloadUrlName;
+    public static String downloadUrlErrorMessage;
 
     /**
      * プラグインの設定を読み込む
@@ -55,7 +55,7 @@ public class PluginConfig {
         downloadMaxSize = config.getLong("download.max-size", -1);
         downloadUrlRestrictionEnabled = config.getBoolean("download.url-restriction.enabled", true);
         downloadUrlPrefix = config.getString("download.url-restriction.prefix");
-        downloadUrlName = config.getString("download.url-restriction.name", "指定された場所");
+        downloadUrlErrorMessage = config.getString("download.url-restriction.error-message", "エラー: URL制限");
     }
 
     /**

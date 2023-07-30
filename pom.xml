@@ -6,7 +6,7 @@
 
     <groupId>net.kunmc.lab</groupId>
     <artifactId>SchemUploader</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SchemUploader</name>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.TeamKun.CommandLib</groupId>
             <artifactId>bukkit</artifactId>
-            <version>0.12.4</version>
+            <version>0.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp</groupId>
@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.0</version>
+            <version>2.8.9</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

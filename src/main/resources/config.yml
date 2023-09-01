@@ -19,3 +19,6 @@ download:
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
     # ダウンロード用のURL制限に引っかかった場合に表示されるエラーメッセージ
     error-message: Discord内の「#schem置き場」チャンネルにあるschematicファイルのみダウンロードできます。誤ったリンクをコピーしている可能性があります。URLを見直してください。
+file:
+  # schematicsフォルダのパス
+  folder-path: plugins/WorldEdit/schematics

@@ -39,7 +39,7 @@ public final class SchemUploader extends JavaPlugin {
         }
 
         // schematicフォルダ
-        schematicFolder = new File(SCHEMATIC_FOLDER);
+        schematicFolder = new File(PluginConfig.fileFolderPath);
 
         // コマンドを登録する
         CommandListener.register();

@@ -1,22 +1,22 @@
-# アップロード用設定
+# Upload settings
 upload:
-  # アップロード機能の有効化
+  # Enable upload functionality
   enabled: true
-  # アップロード用のDiscord Webhook URL
+  # Discord Webhook URL for uploads
   webhook-url: https://discord.com/api/webhooks/xxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# ダウンロード用設定
+# Download settings
 download:
-  # ダウンロード機能の有効化
+  # Enable download functionality
   enabled: true
-  # ダウンロードファイルの最大サイズ (バイト) (-1で無制限)
+  # Maximum size of downloaded files (in bytes) (-1 for unlimited)
   max-size: 8388608 # 8MB
-  # ダウンロード元制限機能設定
+  # Download source restriction settings
   url-restriction:
-    # ダウンロード元制限機能の有効化
+    # Enable download source restriction
     enabled: false
-    # ダウンロード用のURL制限のプレフィックス (Discordの添付ファイルURLの場合、cdn.から始まっていること、末尾に/を付けることに注意する)
-    # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
+    # Prefix for URL restrictions (Note: For Discord attachment URLs, make sure it starts with cdn. and ends with /)
+    # Usually, you just need to replace the xxxxxxxxxxxxxxxxxx part with your own channel ID
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
 file:
-  # schematicsフォルダのパス
+  # Path to the schematics folder
   folder-path: plugins/WorldEdit/schematics

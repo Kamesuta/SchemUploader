@@ -16,54 +16,54 @@ import java.util.UUID;
 import static com.kamesuta.schemuploader.SchemUploader.plugin;
 
 /**
- * Discordにファイルをアップロードするクラス
+ * Class for uploading files to Discord
  */
 public class DiscordUploader {
     /**
-     * 結果
+     * Result
      */
     public static class Result {
         /**
-         * アップロードに成功したかどうか
+         * Whether the upload was successful or not
          */
         public boolean success;
 
         /**
-         * ファイルのURL
+         * URL of the file
          */
         public String url;
 
         /**
-         * エラーメッセージ
+         * Error message
          */
         public String error;
     }
 
     /**
-     * Discordに送信するメッセージ
+     * Message to send to Discord
      */
     private static class WebhookPayload {
         /**
-         * メッセージの内容
+         * Content of the message
          */
         public String content;
     }
 
     /**
-     * Discordからのレスポンス
+     * Response from Discord
      */
     private static class WebhookResponse {
         /**
-         * 添付ファイルリスト
+         * Attachment list
          */
         public Attachment[] attachments;
 
         /**
-         * 添付ファイル
+         * Attachment
          */
         public static class Attachment {
             /**
-             * ファイルのURL
+             * URL of the file
              */
             public String url;
         }
@@ -75,57 +75,57 @@ public class DiscordUploader {
     private static final Gson gson = new Gson();
 
     /**
-     * Discordにファイルをアップロードする
+     * Upload a file to Discord
      *
-     * @param senderName 送信者の名前
-     * @param senderUUID 送信者のUUID
-     * @param file       アップロードするファイル
-     * @param message    メッセージ
-     * @return アップロード結果
+     * @param senderName Name of the sender
+     * @param senderUUID UUID of the sender
+     * @param file       File to upload
+     * @param message    Message
+     * @return Upload result
      */
     public static Result upload(String senderName, UUID senderUUID, File file, String message) {
-        // 文字列をサニタイズする
+        // Sanitize the string
         String sanitizedFileName = file.getName().replaceAll("[^A-Za-z0-9_.]", "");
 
-        // DiscordのWebhook用のJSONを作成
+        // Create JSON for Discord webhook
         WebhookPayload payload = new WebhookPayload();
         String msg = message == null ? "" : message + "\n";
-        payload.content = plugin.messages.getMessage("upload_message", msg, senderName, sanitizedFileName);
+        payload.content = plugin.messages.getMessage("upload_message", msg, senderName, senderUUID, sanitizedFileName);
         String json = gson.toJson(payload);
 
-        // POSTを実行
+        // Execute POST
         Result result = new Result();
         try {
-            // マルチパートフォームデータの境界
+            // Multipart form data boundary
             String boundary = "--------------------------" + System.currentTimeMillis();
 
-            // Webhookを使ってDiscordにアップロードする処理
-            // POSTする内容を設定
+            // Upload to Discord using webhook
+            // Set the content to POST
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(PluginConfig.uploadWebhookUrl))
                     .header("Content-Type", "multipart/form-data; boundary=" + boundary)
                     .POST(ofMimeMultipartData(file, json, boundary))
                     .build();
 
-            // HttpClientを作成
+            // Create HttpClient
             HttpClient client = HttpClient.newHttpClient();
-            // リクエストを送信し、レスポンスを受け取る
+            // Send the request and receive the response
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // レスポンスのステータスコードが200でなければエラー
+            // If the response status code is not 200, there is an error
             if (response.statusCode() != 200) {
                 result.error = plugin.messages.getMessage("error_http_status", response.statusCode());
                 return result;
             }
 
-            // レスポンスボディを取得
+            // Get the response body
             WebhookResponse responseData = gson.fromJson(response.body(), WebhookResponse.class);
             if (responseData.attachments.length == 0) {
                 result.error = "No attachments (unexpected error)";
                 return result;
             }
 
-            // 結果を構築して返す
+            // Build and return the result
             result.success = true;
             result.url = responseData.attachments[0].url;
             return result;
@@ -135,18 +135,18 @@ public class DiscordUploader {
         }
     }
 
-    // マルチパートフォームデータを作成
+    // Create multipart form data
     private static HttpRequest.BodyPublisher ofMimeMultipartData(File file, String json, String boundary) throws IOException {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary + "\r\nContent-Disposition: form-data; name=").getBytes(StandardCharsets.UTF_8);
 
-        // payload_jsonパート
+        // payload_json part
         byteArrays.add(separator);
         byteArrays.add("\"payload_json\"\r\n\r\n".getBytes(StandardCharsets.UTF_8));
         byteArrays.add(json.getBytes(StandardCharsets.UTF_8));
         byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
 
-        // files[0]パート
+        // files[0] part
         byteArrays.add(separator);
         byteArrays.add("\"files[0]\";filename=\"".getBytes(StandardCharsets.UTF_8));
         byteArrays.add(file.getName().getBytes(StandardCharsets.UTF_8));
@@ -154,7 +154,7 @@ public class DiscordUploader {
         byteArrays.add(Files.readAllBytes(file.toPath()));
         byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
 
-        // 最後の境界
+        // Last boundary
         byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
 
         return HttpRequest.BodyPublishers.ofByteArrays(byteArrays);

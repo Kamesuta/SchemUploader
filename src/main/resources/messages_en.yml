@@ -12,7 +12,7 @@ upload_progress: "Uploading..."
 upload_done: "Uploaded %s"
 upload_done_open_url: "Click to open URL"
 upload_failed: "Upload failed: %s"
-upload_message: "%s`%s` uploaded `%s`."
+upload_message: "%s`%s`(`%s`) uploaded `%s`."
 
 download_progress: "Downloading..."
 download_done: "Downloaded %s"

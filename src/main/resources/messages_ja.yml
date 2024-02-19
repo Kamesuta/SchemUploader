@@ -12,7 +12,7 @@ upload_progress: "アップロード中..."
 upload_done: "%s をアップロードしました"
 upload_done_open_url: "クリックでURLを開く"
 upload_failed: "アップロードに失敗しました: %s"
-upload_message: "%s`%s` が `%s` をアップロードしました。"
+upload_message: "%s`%s`(`%s`) が `%s` をアップロードしました。"
 
 download_progress: "ダウンロード中..."
 download_done: "%s をダウンロードしました"

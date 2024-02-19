@@ -20,20 +20,21 @@ import java.util.UUID;
 import static com.kamesuta.schemuploader.SchemUploader.plugin;
 
 /**
- * コマンドを登録するクラス
+ * Class for registering commands.
  */
 public class CommandListener {
     /**
-     * コマンドを登録する
+     * Register the commands.
      */
     public static void register() {
-        // コマンドを登録する処理
+        // Register upload schem command
         if (PluginConfig.uploadEnabled) {
             UploadSchemCommand executor = new UploadSchemCommand();
             PluginCommand command = Objects.requireNonNull(plugin.getCommand("schem_upload"));
             command.setExecutor(executor);
             command.setTabCompleter(executor);
         }
+        // Register download schem command
         if (PluginConfig.downloadEnabled) {
             DownloadSchemCommand executor = new DownloadSchemCommand();
             PluginCommand command = Objects.requireNonNull(plugin.getCommand("schem_download"));
@@ -43,7 +44,7 @@ public class CommandListener {
     }
 
     /**
-     * schemファイルをアップロードするコマンド
+     * Command for uploading schem files.
      */
     public static class UploadSchemCommand implements CommandExecutor, TabCompleter {
         @Override
@@ -55,38 +56,38 @@ public class CommandListener {
             String schemName = args[0];
             String message = args.length == 2 ? args[1] : null;
 
-            // schemファイルのパスを取得
+            // Get the path of the schem file
             String schemFileName = schemName.endsWith(".schem") ? schemName : schemName + ".schem";
             File schemFile = new File(plugin.schematicFolder, schemFileName);
-            // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
+            // Check if the file is included in the directory (to prevent ../ and other path traversal attacks)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
                 sender.sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
-            // 名前とUUIDを取得
+            // Get the name and UUID of the sender
             String senderName = sender.getName();
             UUID senderUUID = (sender instanceof Player) ? ((Player) sender).getUniqueId() : null;
 
-            // 時間がかかりそうならメッセージを送信
+            // Send a message if it is expected to take some time
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 sender.sendMessage(plugin.messages.info("upload_progress"));
             }, 20);
 
-            // schemファイルをアップロードする処理
+            // Upload the schem file asynchronously
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                // schemファイルをアップロードする処理
+                // Upload the schem file
                 DiscordUploader.Result result = DiscordUploader.upload(senderName, senderUUID, schemFile, message);
 
-                // 進行中メッセージ送信タスクをキャンセル
+                // Cancel the progress message task
                 task.cancel();
 
-                // アップロードに失敗したらメッセージを送信
+                // Send an error message if the upload fails
                 if (!result.success) {
                     sender.sendMessage(plugin.messages.error("upload_failed", result.error));
                     return;
                 }
 
-                // アップロードが完了したらメッセージを送信
+                // Send a message when the upload is complete
                 sender.sendMessage(new ComponentBuilder()
                         .append(plugin.messages.success("upload_done", schemFileName))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("upload_done_open_url"))))
@@ -100,11 +101,11 @@ public class CommandListener {
 
         @Override
         public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-            // 1つ目の引数の補完
+            // Tab completion for the first argument
             if (args.length == 1) {
                 return Collections.singletonList("schem_name");
             }
-            // 2つ目の引数の補完
+            // Tab completion for the second argument
             if (args.length == 2) {
                 return Collections.singletonList("message");
             }
@@ -113,7 +114,7 @@ public class CommandListener {
     }
 
     /**
-     * schemファイルをダウンロードするコマンド
+     * Command for downloading schem files.
      */
     public static class DownloadSchemCommand implements CommandExecutor, TabCompleter {
         @Override
@@ -126,40 +127,40 @@ public class CommandListener {
             String url = args[1];
             boolean force = args.length == 3 && args[2].equals("-f");
 
-            // schemファイルのパスを取得
+            // Get the path of the schem file
             File schemFile = new File(plugin.schematicFolder, schemName + ".schem");
 
-            // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
+            // Check if the file is included in the directory (to prevent ../ and other path traversal attacks)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
                 sender.sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
-            // ファイルが存在して、上書きしない場合はエラー
+            // If the file exists and force flag is not set, send an error message
             if (!force && schemFile.exists()) {
                 sender.sendMessage(plugin.messages.error("error_already_exists", schemName + ".schem"));
                 return true;
             }
 
-            // URLのプレフィックスを確認
+            // Check the URL prefix if URL restriction is enabled
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
                 sender.sendMessage(plugin.messages.error("error_url_prefix"));
                 return true;
             }
 
-            // 時間がかかりそうならメッセージを送信
+            // Send a message if it is expected to take some time
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 sender.sendMessage(plugin.messages.info("download_progress"));
             }, 20);
 
-            // schemファイルをダウンロードする処理
+            // Download the schem file asynchronously
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                // schemファイルをダウンロードする処理
+                // Download the schem file
                 FileDownloader.Result result = FileDownloader.download(schemFile, url, PluginConfig.downloadMaxSize);
 
-                // 進行中メッセージ送信タスクをキャンセル
+                // Cancel the progress message task
                 task.cancel();
 
-                // ダウンロードに失敗したらメッセージを送信
+                // Send an error message if the download fails
                 if (!result.success) {
                     if (result.exceededSize) {
                         sender.sendMessage(plugin.messages.error("error_file_size_exceeded", PluginConfig.downloadMaxSize));
@@ -169,7 +170,7 @@ public class CommandListener {
                     return;
                 }
 
-                // ダウンロードが完了したらメッセージを送信
+                // Send a message when the download is complete
                 sender.sendMessage(new ComponentBuilder()
                         .append(plugin.messages.success("download_done", schemName + ".schem"))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("download_done_open_folder"))))
@@ -183,15 +184,15 @@ public class CommandListener {
 
         @Override
         public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-            // 1つ目の引数の補完
+            // Tab completion for the first argument
             if (args.length == 1) {
                 return Collections.singletonList("schem_name");
             }
-            // 2つ目の引数の補完
+            // Tab completion for the second argument
             if (args.length == 2) {
                 return Collections.singletonList("url");
             }
-            // 3つ目の引数の補完
+            // Tab completion for the third argument
             if (args.length == 3) {
                 return Collections.singletonList("-f");
             }

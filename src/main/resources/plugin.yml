@@ -6,18 +6,18 @@ authors: [ Kamesuta ]
 
 permissions:
   schemuploader.upload:
-    description: Schematicをアップロードする権限です
+    description: Permission to upload schematics
     default: true
   schemuploader.download:
-    description: Schematicをダウンロードする権限です
+    description: Permission to download schematics
     default: true
 
 commands:
   schem_upload:
-    description: Schematicをアップロードします
-    usage: /schem_upload <schem名> [メッセージ]
+    description: Upload a schematic
+    usage: /schem_upload <schem_name> [message]
     permission: schemuploader.upload
   schem_download:
-    description: Schematicをダウンロードします
-    usage: /schem_download <schem名> <schemファイルのURL> [-f]
+    description: Download a schematic
+    usage: /schem_download <schem_name> <schem_file_url> [-f]
     permission: schemuploader.download

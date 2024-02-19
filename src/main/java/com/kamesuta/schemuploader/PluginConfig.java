@@ -5,7 +5,7 @@ import org.bukkit.configuration.Configuration;
 import static com.kamesuta.schemuploader.SchemUploader.logger;
 
 /**
- * プラグインの設定を管理するクラス
+ * Class for managing plugin configuration.
  */
 public class PluginConfig {
     /**
@@ -14,48 +14,47 @@ public class PluginConfig {
     public static String language;
 
     /**
-     * アップロード機能の有効化
+     * Enable upload feature
      */
     public static boolean uploadEnabled;
 
     /**
-     * アップロード用のDiscord Webhook URL
+     * Discord Webhook URL for uploading
      */
     public static String uploadWebhookUrl;
 
     /**
-     * ダウンロード機能の有効化
+     * Enable download feature
      */
     public static boolean downloadEnabled;
 
     /**
-     * ダウンロードファイルの最大サイズ (バイト) (-1で無制限)
+     * Maximum size of downloaded files (in bytes) (-1 for unlimited)
      */
     public static long downloadMaxSize;
 
     /**
-     * ダウンロード元制限機能の有効化
+     * Enable download URL restriction feature
      */
     public static boolean downloadUrlRestrictionEnabled;
 
     /**
-     * ダウンロード用のURL制限のプレフィックス
+     * Prefix for download URL restriction
      */
     public static String downloadUrlPrefix;
 
     /**
-     * schematicsフォルダのパス
+     * Path to the schematics folder
      */
     public static String fileFolderPath;
 
     /**
-     * プラグインの設定を読み込む
+     * Load the plugin configuration
      *
-     * @param config 設定ファイル
-     * @return 読み込みに成功したかどうか
+     * @param config Configuration file
      */
     public static void loadConfig(Configuration config) {
-        // 設定ファイルを読み込む
+        // Load the configuration file
         language = config.getString("language", "en");
         uploadEnabled = config.getBoolean("upload.enabled", true);
         uploadWebhookUrl = config.getString("upload.webhook-url");
@@ -67,32 +66,32 @@ public class PluginConfig {
     }
 
     /**
-     * 設定ファイルが正しく設定されているかどうかを返す
+     * Check if the configuration is valid
      *
-     * @return 設定ファイルが正しく設定されているかどうか
+     * @return True if the configuration is valid, false otherwise
      */
     public static boolean isValidConfig() {
-        // アップロード機能が有効化されている場合はWebhook URLが設定されている必要がある
+        // If upload feature is enabled, webhook URL must be set
         if (uploadEnabled && (uploadWebhookUrl == null || uploadWebhookUrl.contains("xxxx"))) {
             return false;
         }
-        // ダウンロード制限機能が有効化されている場合はURL制限が設定されている必要がある
+        // If download restriction feature is enabled, URL prefix must be set
         if (downloadUrlRestrictionEnabled && (downloadUrlPrefix == null || downloadUrlPrefix.contains("xxxx"))) {
             return false;
         }
-        // 設定ファイルが正しく設定されている
+        // Configuration is valid
         return true;
     }
 
     /**
-     * Validate configuration
+     * Validate the configuration
      */
     public static void validateConfig() {
-        // アップロード機能が有効化されている場合はWebhook URLが設定されている必要がある
+        // If upload feature is enabled, webhook URL must be set
         if (uploadEnabled && (uploadWebhookUrl == null || uploadWebhookUrl.contains("xxxx"))) {
             logger.warning("uploadEnabled is true, but uploadWebhookUrl is not set. uploadWebhookUrl is required when uploadEnabled is true.");
         }
-        // ダウンロード制限機能が有効化されている場合はURL制限が設定されている必要がある
+        // If download restriction feature is enabled, URL prefix must be set
         if (downloadUrlRestrictionEnabled && (downloadUrlPrefix == null || downloadUrlPrefix.contains("xxxx"))) {
             logger.warning("downloadUrlRestrictionEnabled is true, but downloadUrlPrefix is not set. downloadUrlPrefix is required when downloadUrlRestrictionEnabled is true.");
         }

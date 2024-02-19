@@ -6,15 +6,15 @@ import java.io.File;
 import java.util.logging.Logger;
 
 /**
- * プラグインのメインクラス
+ * Main class of the plugin
  */
 public final class SchemUploader extends JavaPlugin {
     /**
-     * ロガー
+     * Logger
      */
     public static Logger logger;
     /**
-     * プラグインのインスタンス
+     * Plugin instance
      */
     public static SchemUploader plugin;
 
@@ -28,7 +28,7 @@ public final class SchemUploader extends JavaPlugin {
     public Messages messages;
 
     /**
-     * WorldEditのschematicフォルダ
+     * WorldEdit schematic folder
      */
     public File schematicFolder;
 
@@ -38,12 +38,12 @@ public final class SchemUploader extends JavaPlugin {
         plugin = this;
         logger = getLogger();
 
-        // 設定ファイルを読み込む
+        // Load the configuration file
         saveDefaultConfig();
         PluginConfig.loadConfig(getConfig());
         if (!PluginConfig.isValidConfig()) {
-            logger.warning("設定ファイルの読み込みに失敗しました。");
-            logger.warning("URLが設定されていない、または初期値である可能性があります。");
+            logger.warning("Failed to load configuration file.");
+            logger.warning("The URL may not be set or it may be the default value.");
             PluginConfig.validateConfig();
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -63,10 +63,10 @@ public final class SchemUploader extends JavaPlugin {
         // Load messages.yml
         messages = Messages.load(PluginConfig.language, resourceMessages);
 
-        // schematicフォルダ
+        // Schematic folder
         schematicFolder = new File(PluginConfig.fileFolderPath);
 
-        // コマンドを登録する
+        // Register commands
         CommandListener.register();
     }
 

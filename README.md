@@ -14,6 +14,11 @@ WorldEditのschemファイルをDiscordにアップロード/ダウンロード�
 添付ファイルを右クリックし、「リンクをコピー」をクリックします  
 ![2023-03-01_15h06_38](https://user-images.githubusercontent.com/16362824/222058621-5f81e3fd-d3e1-408c-ae4b-41366c481684.png)
 
+## 動作環境
+
+- Java11以上
+  - Java11の機能を使用してHTTP通信を行うため必要です。
+
 ## 設定
 
 このプラグインは導入時にconfig.ymlの設定が必要です。
@@ -57,3 +62,8 @@ download:
     # ダウンロード用のURL制限場所の名前 (エラー時に案内が表示される)
     name: Discord内の「#schem置き場」チャンネル
 ```
+
+## 権限
+
+- `schemuploader.upload`: schemファイルのアップロード機能を使用する権限
+- `schemuploader.download`: schemファイルのダウンロード機能を使用する権限

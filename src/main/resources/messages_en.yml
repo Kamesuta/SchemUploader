@@ -1,0 +1,20 @@
+prefix: "[SchemUploader] "
+
+error_invalid_folder: "You can only specify locations within the WorldEdit schematic folder"
+error_http_status: "HTTP status code: %d"
+error_io: "IO error: %s"
+error_not_schematic: "The file is not a schematic file"
+error_already_exists: "%s already exists. Please specify -f to overwrite"
+error_file_size_exceeded: "File size exceeds maximum limit (%d Bytes)"
+error_url_prefix: "You can only download schematic files from the '#schem-storage' channel within Discord. You may have copied a wrong link. Please review the URL."
+
+upload_progress: "Uploading..."
+upload_done: "Uploaded %s"
+upload_done_open_url: "Click to open URL"
+upload_failed: "Upload failed: %s"
+upload_message: "%s`%s` uploaded `%s`."
+
+download_progress: "Downloading..."
+download_done: "Downloaded %s"
+download_done_open_folder: "Click to open URL"
+download_failed: "Download failed: %s"

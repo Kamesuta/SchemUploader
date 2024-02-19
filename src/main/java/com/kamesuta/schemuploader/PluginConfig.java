@@ -44,11 +44,6 @@ public class PluginConfig {
     public static String downloadUrlPrefix;
 
     /**
-     * ダウンロード用のURL制限に引っかかった場合に表示されるエラーメッセージ
-     */
-    public static String downloadUrlErrorMessage;
-
-    /**
      * schematicsフォルダのパス
      */
     public static String fileFolderPath;
@@ -68,7 +63,6 @@ public class PluginConfig {
         downloadMaxSize = config.getLong("download.max-size", -1);
         downloadUrlRestrictionEnabled = config.getBoolean("download.url-restriction.enabled", true);
         downloadUrlPrefix = config.getString("download.url-restriction.prefix");
-        downloadUrlErrorMessage = config.getString("download.url-restriction.error-message", "エラー: URL制限");
         fileFolderPath = config.getString("file.folder-path", "plugins/WorldEdit/schematics");
     }
 

@@ -1,6 +1,5 @@
 package com.kamesuta.schemuploader;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -143,7 +142,7 @@ public class CommandListener {
 
             // URLのプレフィックスを確認
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
-                sender.sendMessage(new ComponentBuilder(PluginConfig.downloadUrlErrorMessage).color(ChatColor.RED).create());
+                sender.sendMessage(plugin.messages.error("error_url_prefix"));
                 return true;
             }
 

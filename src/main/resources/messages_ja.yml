@@ -1,0 +1,19 @@
+prefix: "[SchemUploader] "
+
+error_invalid_folder: "WorldEditのschematicフォルダー以外の場所を指定することはできません"
+error_http_status: "HTTPステータスコード: %d"
+error_io: "IOエラー: %s"
+error_not_schematic: "ファイルがschematicファイルではありません"
+error_already_exists: "%s は既に存在します。上書きする場合は -f を指定してください"
+error_file_size_exceeded: "ファイルサイズが大きすぎます (最大 %d Bytes)"
+
+upload_progress: "アップロード中..."
+upload_done: "%s をアップロードしました"
+upload_done_open_url: "クリックでURLを開く"
+upload_failed: "アップロードに失敗しました: %s"
+upload_message: "%s`%s` が `%s` をアップロードしました。"
+
+download_progress: "ダウンロード中..."
+download_done: "%s をダウンロードしました"
+download_done_open_folder: "クリックでURLを開く"
+download_failed: "ダウンロードに失敗しました: %s"

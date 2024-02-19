@@ -1,8 +1,10 @@
 package com.kamesuta.schemuploader;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -59,7 +61,7 @@ public class CommandListener {
             File schemFile = new File(plugin.schematicFolder, schemFileName);
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
-                sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
+                sender.sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
             // 名前とUUIDを取得
@@ -68,7 +70,7 @@ public class CommandListener {
 
             // 時間がかかりそうならメッセージを送信
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                sender.sendMessage("アップロード中...");
+                sender.sendMessage(plugin.messages.info("upload_progress"));
             }, 20);
 
             // schemファイルをアップロードする処理
@@ -81,18 +83,16 @@ public class CommandListener {
 
                 // アップロードに失敗したらメッセージを送信
                 if (!result.success) {
-                    sender.sendMessage(Component.text("アップロードに失敗しました: " + result.error).color(NamedTextColor.RED));
+                    sender.sendMessage(plugin.messages.error("upload_failed", result.error));
                     return;
                 }
 
                 // アップロードが完了したらメッセージを送信
-                sender.sendMessage(Component.text()
-                        .append(Component.text(schemFileName)
-                                .color(NamedTextColor.GREEN)
-                                .hoverEvent(Component.text("クリックでURLを開く").color(NamedTextColor.GREEN))
-                                .clickEvent(ClickEvent.openUrl(result.url))
-                        )
-                        .append(Component.text(" をアップロードしました"))
+                sender.sendMessage(new ComponentBuilder()
+                        .append(plugin.messages.success("upload_done", schemFileName))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("upload_done_open_url"))))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, result.url))
+                        .create()
                 );
             });
 
@@ -132,24 +132,24 @@ public class CommandListener {
 
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
-                sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
+                sender.sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
             // ファイルが存在して、上書きしない場合はエラー
             if (!force && schemFile.exists()) {
-                sender.sendMessage(Component.text(schemName + ".schem は既に存在します。上書きする場合は -f を指定してください").color(NamedTextColor.RED));
+                sender.sendMessage(plugin.messages.error("error_already_exists", schemName + ".schem"));
                 return true;
             }
 
             // URLのプレフィックスを確認
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
-                sender.sendMessage(Component.text(PluginConfig.downloadUrlErrorMessage).color(NamedTextColor.RED));
+                sender.sendMessage(new ComponentBuilder(PluginConfig.downloadUrlErrorMessage).color(ChatColor.RED).create());
                 return true;
             }
 
             // 時間がかかりそうならメッセージを送信
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                sender.sendMessage("ダウンロード中...");
+                sender.sendMessage(plugin.messages.info("download_progress"));
             }, 20);
 
             // schemファイルをダウンロードする処理
@@ -163,21 +163,19 @@ public class CommandListener {
                 // ダウンロードに失敗したらメッセージを送信
                 if (!result.success) {
                     if (result.exceededSize) {
-                        sender.sendMessage(Component.text("ファイルサイズが大きすぎます (最大 " + PluginConfig.downloadMaxSize + " Bytes)").color(NamedTextColor.RED));
+                        sender.sendMessage(plugin.messages.error("error_file_size_exceeded", PluginConfig.downloadMaxSize));
                     } else {
-                        sender.sendMessage(Component.text("ダウンロードに失敗しました: " + result.error).color(NamedTextColor.RED));
+                        sender.sendMessage(plugin.messages.error("download_failed", result.error));
                     }
                     return;
                 }
 
                 // ダウンロードが完了したらメッセージを送信
-                sender.sendMessage(Component.text()
-                        .append(Component.text(schemName + ".schem")
-                                .color(NamedTextColor.GREEN)
-                                .hoverEvent(Component.text("クリックでURLを開く").color(NamedTextColor.GREEN))
-                                .clickEvent(ClickEvent.openUrl(url))
-                        )
-                        .append(Component.text(" をダウンロードしました"))
+                sender.sendMessage(new ComponentBuilder()
+                        .append(plugin.messages.success("download_done", schemName + ".schem"))
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("download_done_open_folder"))))
+                        .event(new ClickEvent(ClickEvent.Action.OPEN_URL, url))
+                        .create()
                 );
             });
 

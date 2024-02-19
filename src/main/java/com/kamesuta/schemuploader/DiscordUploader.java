@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static com.kamesuta.schemuploader.SchemUploader.plugin;
+
 /**
  * Discordにファイルをアップロードするクラス
  */
@@ -88,7 +90,7 @@ public class DiscordUploader {
         // DiscordのWebhook用のJSONを作成
         WebhookPayload payload = new WebhookPayload();
         String msg = message == null ? "" : message + "\n";
-        payload.content = String.format("%s`%s` が `%s` をアップロードしました。", msg, senderName, sanitizedFileName);
+        payload.content = plugin.messages.getMessage("upload_message", msg, senderName, sanitizedFileName);
         String json = gson.toJson(payload);
 
         // POSTを実行
@@ -112,14 +114,14 @@ public class DiscordUploader {
 
             // レスポンスのステータスコードが200でなければエラー
             if (response.statusCode() != 200) {
-                result.error = String.format("HTTPステータスコード: %d", response.statusCode());
+                result.error = plugin.messages.getMessage("error_http_status", response.statusCode());
                 return result;
             }
 
             // レスポンスボディを取得
             WebhookResponse responseData = gson.fromJson(response.body(), WebhookResponse.class);
             if (responseData.attachments.length == 0) {
-                result.error = "添付ファイルなし (想定外のエラー)";
+                result.error = "No attachments (unexpected error)";
                 return result;
             }
 
@@ -128,7 +130,7 @@ public class DiscordUploader {
             result.url = responseData.attachments[0].url;
             return result;
         } catch (IOException | InterruptedException e) {
-            result.error = String.format("IOエラー: %s", e.getMessage());
+            result.error = plugin.messages.getMessage("error_io", e.getMessage());
             return result;
         }
     }

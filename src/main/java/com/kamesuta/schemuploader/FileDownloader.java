@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 
+import static com.kamesuta.schemuploader.SchemUploader.plugin;
+
 /**
  * ファイルをダウンロードするクラス
  */
@@ -60,7 +62,7 @@ public class FileDownloader {
 
             // レスポンスのステータスコードが200でなければエラー
             if (response.statusCode() != 200) {
-                result.error = String.format("HTTPステータスコード: %d", response.statusCode());
+                result.error = plugin.messages.getMessage("error_http_status", response.statusCode());
                 return result;
             }
 
@@ -84,7 +86,7 @@ public class FileDownloader {
 
             // Schematicファイルかどうかをチェックする
             if (!checkSchematic(data)) {
-                result.error = "Schematicファイルではありません";
+                result.error = plugin.messages.getMessage("error_not_schematic");
                 return result;
             }
 
@@ -95,7 +97,7 @@ public class FileDownloader {
             result.success = true;
             return result;
         } catch (IOException | InterruptedException e) {
-            result.error = String.format("IOエラー: %s", e.getMessage());
+            result.error = plugin.messages.getMessage("error_io", e.getMessage());
             return result;
         }
     }

@@ -1,18 +1,19 @@
 package net.kunmc.lab.schemuploader;
 
-import net.kunmc.lab.commandlib.Command;
-import net.kunmc.lab.commandlib.CommandContext;
-import net.kunmc.lab.commandlib.CommandLib;
-import net.kunmc.lab.commandlib.argument.StringArgument;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -25,44 +26,39 @@ public class CommandListener {
     public static void register() {
         // コマンドを登録する処理
         if (PluginConfig.uploadEnabled) {
-            CommandLib.register(SchemUploader.instance, new UploadSchemCommand());
+            UploadSchemCommand executor = new UploadSchemCommand();
+            PluginCommand command = Objects.requireNonNull(SchemUploader.instance.getCommand("schem_upload"));
+            command.setExecutor(executor);
+            command.setTabCompleter(executor);
         }
         if (PluginConfig.downloadEnabled) {
-            CommandLib.register(SchemUploader.instance, new DownloadSchemCommand());
+            DownloadSchemCommand executor = new DownloadSchemCommand();
+            PluginCommand command = Objects.requireNonNull(SchemUploader.instance.getCommand("schem_download"));
+            command.setExecutor(executor);
+            command.setTabCompleter(executor);
         }
     }
 
     /**
      * schemファイルをアップロードするコマンド
      */
-    public static class UploadSchemCommand extends Command {
-        public UploadSchemCommand() {
-            super("schem_upload");
+    public static class UploadSchemCommand implements CommandExecutor, TabCompleter {
+        @Override
+        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            if (args.length < 1 || args.length > 2) {
+                return false;
+            }
 
-            argument(new StringArgument("schem_name", StringArgument.Type.WORD), (schemName, ctx) -> {
-                onCommand(schemName, null, ctx);
-            });
+            String schemName = args[0];
+            String message = args.length == 2 ? args[1] : null;
 
-            argument(new StringArgument("schem_name", StringArgument.Type.WORD), new StringArgument("message", StringArgument.Type.PHRASE), this::onCommand);
-        }
-
-        /**
-         * コマンドが実行されたときの処理
-         *
-         * @param schemName schemファイルの名前
-         * @param message   メッセージ
-         * @param ctx       コマンドのコンテキスト
-         */
-        private void onCommand(String schemName, String message, CommandContext ctx) {
-            // Sender
-            CommandSender sender = ctx.getSender();
             // schemファイルのパスを取得
             String schemFileName = schemName.endsWith(".schem") ? schemName : schemName + ".schem";
             File schemFile = new File(SchemUploader.instance.schematicFolder, schemFileName);
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
             if (!schemFile.getParentFile().equals(SchemUploader.instance.schematicFolder)) {
                 sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
-                return;
+                return true;
             }
             // 名前とUUIDを取得
             String senderName = sender.getName();
@@ -97,58 +93,56 @@ public class CommandListener {
                         .append(Component.text(" をアップロードしました"))
                 );
             });
+
+            return true;
+        }
+
+        @Override
+        public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+            // 1つ目の引数の補完
+            if (args.length == 1) {
+                return Collections.singletonList("schem_name");
+            }
+            // 2つ目の引数の補完
+            if (args.length == 2) {
+                return Collections.singletonList("message");
+            }
+            return null;
         }
     }
 
     /**
      * schemファイルをダウンロードするコマンド
      */
-    public static class DownloadSchemCommand extends Command {
-        public DownloadSchemCommand() {
-            super("schem_download");
+    public static class DownloadSchemCommand implements CommandExecutor, TabCompleter {
+        @Override
+        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            if (args.length < 2 || args.length > 3) {
+                return false;
+            }
 
-            argument(new StringArgument("schem_name", StringArgument.Type.WORD), new StringArgument("url", StringArgument.Type.PHRASE), (schemName, url, ctx) -> {
-                onCommand(schemName, url, false, ctx);
-            });
+            String schemName = args[0];
+            String url = args[1];
+            boolean force = args.length == 3 && args[2].equals("-f");
 
-            argument(new StringArgument("schem_name", StringArgument.Type.WORD), new StringArgument("-f", StringArgument.Type.WORD), new StringArgument("url", StringArgument.Type.PHRASE), (schemName, force, url, ctx) -> {
-                if (!force.equals("-f")) {
-                    ctx.getSender().sendMessage(Component.text("オプションが不正です。ファイルを上書きする場合は -f を指定してください").color(NamedTextColor.RED));
-                    return;
-                }
-                onCommand(schemName, url, true, ctx);
-            });
-        }
-
-        /**
-         * コマンドが実行されたときの処理
-         *
-         * @param schemName schemファイルの名前
-         * @param url       URL
-         * @param force     上書きするかどうか
-         * @param ctx       コマンドのコンテキスト
-         */
-        private static void onCommand(String schemName, String url, boolean force, CommandContext ctx) {
-            // Sender
-            CommandSender sender = ctx.getSender();
             // schemファイルのパスを取得
             File schemFile = new File(SchemUploader.instance.schematicFolder, schemName + ".schem");
 
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
             if (!schemFile.getParentFile().equals(SchemUploader.instance.schematicFolder)) {
                 sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
-                return;
+                return true;
             }
             // ファイルが存在して、上書きしない場合はエラー
             if (!force && schemFile.exists()) {
                 sender.sendMessage(Component.text(schemName + ".schem は既に存在します。上書きする場合は -f を指定してください").color(NamedTextColor.RED));
-                return;
+                return true;
             }
 
             // URLのプレフィックスを確認
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
                 sender.sendMessage(Component.text(PluginConfig.downloadUrlErrorMessage).color(NamedTextColor.RED));
-                return;
+                return true;
             }
 
             // 時間がかかりそうならメッセージを送信
@@ -184,6 +178,25 @@ public class CommandListener {
                         .append(Component.text(" をダウンロードしました"))
                 );
             });
+
+            return true;
+        }
+
+        @Override
+        public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+            // 1つ目の引数の補完
+            if (args.length == 1) {
+                return Collections.singletonList("schem_name");
+            }
+            // 2つ目の引数の補完
+            if (args.length == 2) {
+                return Collections.singletonList("url");
+            }
+            // 3つ目の引数の補完
+            if (args.length == 3) {
+                return Collections.singletonList("-f");
+            }
+            return null;
         }
     }
 }

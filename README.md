@@ -8,7 +8,7 @@ WorldEditのschemファイルをDiscordにアップロード/ダウンロード�
 - アップロード
 `/schem_upload <schem名> [メッセージ]`
 - ダウンロード
-`/schem_download <schem名> <schemファイルのURL>`
+`/schem_download <schem名> <schemファイルのURL> [-f]`
 
 ### schemファイルのURL取得方法
 添付ファイルを右クリックし、「リンクをコピー」をクリックします  

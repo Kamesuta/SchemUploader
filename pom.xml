@@ -6,7 +6,7 @@
 
     <groupId>net.kunmc.lab</groupId>
     <artifactId>SchemUploader</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SchemUploader</name>
@@ -81,10 +81,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -93,11 +89,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.TeamKun.CommandLib</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>0.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp</groupId>

@@ -3,3 +3,21 @@ version: '${project.version}'
 main: net.kunmc.lab.schemuploader.SchemUploader
 api-version: 1.16
 authors: [ Kamesuta ]
+
+permissions:
+  schemuploader.upload:
+    description: Schematicをアップロードする権限です
+    default: true
+  schemuploader.download:
+    description: Schematicをダウンロードする権限です
+    default: true
+
+commands:
+  schem_upload:
+    description: Schematicをアップロードします
+    usage: /schem_upload <schem名> [メッセージ]
+    permission: schemuploader.upload
+  schem_download:
+    description: Schematicをダウンロードします
+    usage: /schem_download <schem名> <schemファイルのURL> [-f]
+    permission: schemuploader.download

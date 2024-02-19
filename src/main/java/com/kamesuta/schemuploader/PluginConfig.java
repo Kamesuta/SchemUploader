@@ -2,10 +2,17 @@ package com.kamesuta.schemuploader;
 
 import org.bukkit.configuration.Configuration;
 
+import static com.kamesuta.schemuploader.SchemUploader.logger;
+
 /**
  * プラグインの設定を管理するクラス
  */
 public class PluginConfig {
+    /**
+     * Language
+     */
+    public static String language;
+
     /**
      * アップロード機能の有効化
      */
@@ -54,6 +61,7 @@ public class PluginConfig {
      */
     public static void loadConfig(Configuration config) {
         // 設定ファイルを読み込む
+        language = config.getString("language", "en");
         uploadEnabled = config.getBoolean("upload.enabled", true);
         uploadWebhookUrl = config.getString("upload.webhook-url");
         downloadEnabled = config.getBoolean("download.enabled", true);
@@ -80,5 +88,19 @@ public class PluginConfig {
         }
         // 設定ファイルが正しく設定されている
         return true;
+    }
+
+    /**
+     * Validate configuration
+     */
+    public static void validateConfig() {
+        // アップロード機能が有効化されている場合はWebhook URLが設定されている必要がある
+        if (uploadEnabled && (uploadWebhookUrl == null || uploadWebhookUrl.contains("xxxx"))) {
+            logger.warning("uploadEnabled is true, but uploadWebhookUrl is not set. uploadWebhookUrl is required when uploadEnabled is true.");
+        }
+        // ダウンロード制限機能が有効化されている場合はURL制限が設定されている必要がある
+        if (downloadUrlRestrictionEnabled && (downloadUrlPrefix == null || downloadUrlPrefix.contains("xxxx"))) {
+            logger.warning("downloadUrlRestrictionEnabled is true, but downloadUrlPrefix is not set. downloadUrlPrefix is required when downloadUrlRestrictionEnabled is true.");
+        }
     }
 }

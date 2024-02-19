@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.kamesuta.schemuploader.SchemUploader.plugin;
+
 /**
  * コマンドを登録するクラス
  */
@@ -27,13 +29,13 @@ public class CommandListener {
         // コマンドを登録する処理
         if (PluginConfig.uploadEnabled) {
             UploadSchemCommand executor = new UploadSchemCommand();
-            PluginCommand command = Objects.requireNonNull(SchemUploader.instance.getCommand("schem_upload"));
+            PluginCommand command = Objects.requireNonNull(plugin.getCommand("schem_upload"));
             command.setExecutor(executor);
             command.setTabCompleter(executor);
         }
         if (PluginConfig.downloadEnabled) {
             DownloadSchemCommand executor = new DownloadSchemCommand();
-            PluginCommand command = Objects.requireNonNull(SchemUploader.instance.getCommand("schem_download"));
+            PluginCommand command = Objects.requireNonNull(plugin.getCommand("schem_download"));
             command.setExecutor(executor);
             command.setTabCompleter(executor);
         }
@@ -54,9 +56,9 @@ public class CommandListener {
 
             // schemファイルのパスを取得
             String schemFileName = schemName.endsWith(".schem") ? schemName : schemName + ".schem";
-            File schemFile = new File(SchemUploader.instance.schematicFolder, schemFileName);
+            File schemFile = new File(plugin.schematicFolder, schemFileName);
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
-            if (!schemFile.getParentFile().equals(SchemUploader.instance.schematicFolder)) {
+            if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
                 sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
                 return true;
             }
@@ -65,12 +67,12 @@ public class CommandListener {
             UUID senderUUID = (sender instanceof Player) ? ((Player) sender).getUniqueId() : null;
 
             // 時間がかかりそうならメッセージを送信
-            BukkitTask task = Bukkit.getScheduler().runTaskLater(SchemUploader.instance, () -> {
+            BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 sender.sendMessage("アップロード中...");
             }, 20);
 
             // schemファイルをアップロードする処理
-            Bukkit.getScheduler().runTaskAsynchronously(SchemUploader.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 // schemファイルをアップロードする処理
                 DiscordUploader.Result result = DiscordUploader.upload(senderName, senderUUID, schemFile, message);
 
@@ -126,10 +128,10 @@ public class CommandListener {
             boolean force = args.length == 3 && args[2].equals("-f");
 
             // schemファイルのパスを取得
-            File schemFile = new File(SchemUploader.instance.schematicFolder, schemName + ".schem");
+            File schemFile = new File(plugin.schematicFolder, schemName + ".schem");
 
             // ファイルがディレクトリに含まれるかどうかを判定 (../などのパスを指定されたとき対策)
-            if (!schemFile.getParentFile().equals(SchemUploader.instance.schematicFolder)) {
+            if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
                 sender.sendMessage(Component.text("WorldEditのschematicフォルダー以外の場所を指定することはできません").color(NamedTextColor.RED));
                 return true;
             }
@@ -146,12 +148,12 @@ public class CommandListener {
             }
 
             // 時間がかかりそうならメッセージを送信
-            BukkitTask task = Bukkit.getScheduler().runTaskLater(SchemUploader.instance, () -> {
+            BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 sender.sendMessage("ダウンロード中...");
             }, 20);
 
             // schemファイルをダウンロードする処理
-            Bukkit.getScheduler().runTaskAsynchronously(SchemUploader.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 // schemファイルをダウンロードする処理
                 FileDownloader.Result result = FileDownloader.download(schemFile, url, PluginConfig.downloadMaxSize);
 

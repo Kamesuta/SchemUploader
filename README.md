@@ -1,69 +1,73 @@
 # SchemUploader
 
-WorldEditのschemファイルをDiscordにアップロード/ダウンロードできるようにします。
+Allows you to upload/download WorldEdit schem files to/from Discord.
 ![2023-03-01_15h05_33](https://user-images.githubusercontent.com/16362824/222058389-8fa598f7-990a-45ad-bb42-8a78609e9212.png)
 
-## 使い方
+## Usage
 
-- アップロード
-`/schem_upload <schem名> [メッセージ]`
-- ダウンロード
-`/schem_download <schem名> <schemファイルのURL> [-f]`
+- Upload
+`/schem_upload <schem_name> [message]`
+- Download
+`/schem_download <schem_name> <schem_file_URL> [-f]`
 
-### schemファイルのURL取得方法
-添付ファイルを右クリックし、「リンクをコピー」をクリックします  
+### How to get schem file URL
+Right-click on the attached file and click "Copy link"
 ![2023-03-01_15h06_38](https://user-images.githubusercontent.com/16362824/222058621-5f81e3fd-d3e1-408c-ae4b-41366c481684.png)
 
-## 動作環境
+## Requirements
 
-- Java11以上
-  - Java11の機能を使用してHTTP通信を行うため必要です。
+- Java 11 or higher
+  - Required for performing HTTP communication using Java 11 features.
 
-## 設定
+## Configuration
 
-このプラグインは導入時にconfig.ymlの設定が必要です。
+This plugin requires configuration in the config.yml file upon installation.
 
-### 最低限必要な設定
+### Minimum required settings
 
-- `upload.webhook-url`: アップロード用のWebhookのURLです。チャンネル設定からWebhookを登録後、取得できます。
+- `upload.webhook-url`: URL of the webhook for uploading. After registering a webhook in the channel settings, you can obtain this URL.
 
-### ダウンロード元のURLを制限する場合
-この機能をONにすることで、指定したDiscordチャンネル、または指定したサイトからのみダウンロードさせるといった事ができます。
+### Restricting download URLs
 
-- `download.url-restriction.enabled`: 機能の有効化
-  - true にしてください。
-- `download.url-restriction.prefix`: ダウンロードするURLのプレフィックス
-  - `https://cdn.discordapp.com/attachments/<チャンネルID>/` を指定すれば特定のDiscordチャンネルのみからダウンロードさせることができます。
-- `download.url-restriction.name`: ダウンロード場所の名前
-  - 上記のプレフィックス以外からダウンロードした場合に表示されるエラーにnameが使用されます。
-  - `#schem置き場` と設定した場合、`#schem置き場 にあるファイルのみダウンロードできます` とエラーメッセージが表示されます。
+You can restrict downloads to specific Discord channels or sites by enabling this feature.
 
-### 全設定
+- `download.url-restriction.enabled`: Enable the feature
+  - Set to true.
+- `download.url-restriction.prefix`: Prefix for download URLs
+  - By specifying `https://cdn.discordapp.com/attachments/<channel_ID>/`, you can restrict downloads to specific Discord channels.
+- `download.url-restriction.name`: Name of the download location
+  - This name is used in error messages when downloading from locations other than the specified prefix.
+  - If set to `#schem-storage`, the error message will display as "You can only download files from #schem-storage channel".
+
+### Full configuration
 ```yaml
-# アップロード用設定
+# Language
+language: en
+# Upload settings
 upload:
-  # アップロード機能の有効化
+  # Enable upload functionality
   enabled: true
-  # アップロード用のDiscord Webhook URL
+  # Discord Webhook URL for uploads
   webhook-url: https://discord.com/api/webhooks/xxxxxxxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# ダウンロード用設定
+# Download settings
 download:
-  # ダウンロード機能の有効化
+  # Enable download functionality
   enabled: true
-  # ダウンロードファイルの最大サイズ (バイト) (-1で無制限)
+  # Maximum size of downloaded files (in bytes) (-1 for unlimited)
   max-size: 8388608 # 8MB
-  # ダウンロード元制限機能設定
+  # Download source restriction settings
   url-restriction:
-    # ダウンロード元制限機能の有効化
+    # Enable download source restriction
     enabled: false
-    # ダウンロード用のURL制限のプレフィックス (Discordの添付ファイルURLの場合、cdn.から始まっていること、末尾に/を付けることに注意する)
-    # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
+    # Prefix for URL restrictions (Note: For Discord attachment URLs, make sure it starts with cdn. and ends with /)
+    # Usually, you just need to replace the xxxxxxxxxxxxxxxxxx part with your own channel ID
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
-    # ダウンロード用のURL制限場所の名前 (エラー時に案内が表示される)
-    name: Discord内の「#schem置き場」チャンネル
+file:
+  # Path to the schematics folder
+  folder-path: plugins/WorldEdit/schematics
 ```
 
-## 権限
+## Permissions
 
-- `schemuploader.upload`: schemファイルのアップロード機能を使用する権限
-- `schemuploader.download`: schemファイルのダウンロード機能を使用する権限
+- `schemuploader.upload`: Permission to use the schem file upload feature
+- `schemuploader.download`: Permission to use the schem file download feature

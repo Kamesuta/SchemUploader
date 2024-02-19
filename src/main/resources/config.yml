@@ -1,3 +1,5 @@
+# Language (en, ja)
+language: en
 # Upload settings
 upload:
   # Enable upload functionality

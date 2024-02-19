@@ -64,6 +64,13 @@ public class CommandListener {
                 sender.sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
+
+            // Check if the file exists
+            if (!schemFile.exists()) {
+                sender.sendMessage(plugin.messages.error("error_not_found", schemFileName));
+                return true;
+            }
+
             // Get the name and UUID of the sender
             String senderName = sender.getName();
             UUID senderUUID = (sender instanceof Player) ? ((Player) sender).getUniqueId() : null;

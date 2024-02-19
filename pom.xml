@@ -6,7 +6,7 @@
 
     <groupId>com.kamesuta</groupId>
     <artifactId>SchemUploader</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SchemUploader</name>
@@ -42,26 +42,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>com.squareup.okhttp</pattern>
-                            <shadedPattern>com.kamesuta.schemuploader.lib.com.squareup.okhttp</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache.commons.lang3</pattern>
-                            <shadedPattern>com.kamesuta.schemuploader.lib.org.apache.commons.lang3</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>okio</pattern>
-                            <shadedPattern>com.kamesuta.schemuploader.lib.okio</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.kamesuta.commandlib</pattern>
-                            <shadedPattern>com.kamesuta.schemuploader.lib.commandlib</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -89,11 +69,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>2.7.5</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

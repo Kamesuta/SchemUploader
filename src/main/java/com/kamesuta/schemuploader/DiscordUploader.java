@@ -1,4 +1,4 @@
-package net.kunmc.lab.schemuploader;
+package com.kamesuta.schemuploader;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.*;

@@ -1,6 +1,6 @@
 name: SchemUploader
 version: '${project.version}'
-main: net.kunmc.lab.schemuploader.SchemUploader
+main: com.kamesuta.schemuploader.SchemUploader
 api-version: 1.16
 authors: [ Kamesuta ]
 

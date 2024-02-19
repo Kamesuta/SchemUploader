@@ -1,4 +1,4 @@
-package net.kunmc.lab.schemuploader;
+package com.kamesuta.schemuploader;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

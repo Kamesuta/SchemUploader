@@ -1,4 +1,4 @@
-package net.kunmc.lab.schemuploader;
+package com.kamesuta.schemuploader;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

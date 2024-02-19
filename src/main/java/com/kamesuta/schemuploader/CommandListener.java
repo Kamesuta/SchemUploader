@@ -1,4 +1,4 @@
-package net.kunmc.lab.schemuploader;
+package com.kamesuta.schemuploader;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;

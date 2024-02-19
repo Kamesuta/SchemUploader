@@ -19,6 +19,11 @@ public final class SchemUploader extends JavaPlugin {
     public static SchemUploader plugin;
 
     /**
+     * Statistics
+     */
+    public Statistics statistics;
+
+    /**
      * Fallback Translations
      */
     public Messages fallbackMessages;
@@ -68,6 +73,9 @@ public final class SchemUploader extends JavaPlugin {
 
         // Register commands
         CommandListener.register();
+
+        // Statistics
+        statistics = new Statistics();
     }
 
     @Override

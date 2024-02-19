@@ -91,6 +91,10 @@ public class CommandListener {
                 // Send an error message if the upload fails
                 if (!result.success) {
                     sender.sendMessage(plugin.messages.error("upload_failed", result.error));
+
+                    // Add record to statistics
+                    plugin.statistics.actionCounter.increment(Statistics.ActionCounter.ActionType.UPLOAD_FAILURE);
+
                     return;
                 }
 
@@ -101,6 +105,9 @@ public class CommandListener {
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, result.url))
                         .create()
                 );
+
+                // Add record to statistics
+                plugin.statistics.actionCounter.increment(Statistics.ActionCounter.ActionType.UPLOAD_SUCCESS);
             });
 
             return true;
@@ -174,6 +181,10 @@ public class CommandListener {
                     } else {
                         sender.sendMessage(plugin.messages.error("download_failed", result.error));
                     }
+
+                    // Add record to statistics
+                    plugin.statistics.actionCounter.increment(Statistics.ActionCounter.ActionType.DOWNLOAD_FAILURE);
+
                     return;
                 }
 
@@ -184,6 +195,9 @@ public class CommandListener {
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, url))
                         .create()
                 );
+
+                // Add record to statistics
+                plugin.statistics.actionCounter.increment(Statistics.ActionCounter.ActionType.DOWNLOAD_SUCCESS);
             });
 
             return true;

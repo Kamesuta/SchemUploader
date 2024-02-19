@@ -71,3 +71,11 @@ file:
 
 - `schemuploader.upload`: Permission to use the schem file upload feature
 - `schemuploader.download`: Permission to use the schem file download feature
+
+## About Statistics Data
+
+BungeePteroPower collects anonymous statistical data using [bStats](https://bstats.org/).  
+You can find the statistics data [here](https://bstats.org/plugin/bukkit/SchemUploader/21061).
+
+bStats is used to understand the usage of the plugin and help improve it.  
+To disable the collection of statistical data, please set `enabled` to `false` in `plugins/bStats/config.yml`

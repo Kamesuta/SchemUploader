@@ -69,3 +69,11 @@ download:
 
 - `schemuploader.upload`: schemファイルのアップロード機能を使用する権限
 - `schemuploader.download`: schemファイルのダウンロード機能を使用する権限
+
+## 統計データについて
+
+BungeePteroPowerは、[bStats](https://bstats.org/)を使用して匿名の統計データを収集しています。  
+統計データは[こちら](https://bstats.org/plugin/bukkit/SchemUploader/21061)。
+
+bStatsは、プラグインの使用状況を把握するために使用され、プラグインの改善に役立てられます。  
+統計データの収集を無効にするには、`plugins/bStats/config.yml`の `enabled` を `false` に設定してください。

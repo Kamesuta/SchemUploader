@@ -1,7 +1,7 @@
 # SchemUploader
+![LogoArt](https://i.gyazo.com/b5b852f4e74c7d76377c7d5fb37ba17f.png)  
 
 WorldEditのschemファイルをDiscordにアップロード/ダウンロードできるようにします。
-![2023-03-01_15h05_33](https://user-images.githubusercontent.com/16362824/222058389-8fa598f7-990a-45ad-bb42-8a78609e9212.png)
 
 ## 使い方
 
@@ -9,10 +9,11 @@ WorldEditのschemファイルをDiscordにアップロード/ダウンロード�
 `/schem_upload <schem名> [メッセージ]`
 - ダウンロード
 `/schem_download <schem名> <schemファイルのURL> [-f]`
+![Video](https://i.gyazo.com/683abfa22a46fe11bd3136d0d64da91f.gif)
 
 ### schemファイルのURL取得方法
 添付ファイルを右クリックし、「リンクをコピー」をクリックします  
-![2023-03-01_15h06_38](https://user-images.githubusercontent.com/16362824/222058621-5f81e3fd-d3e1-408c-ae4b-41366c481684.png)
+![How to Get Link](https://i.gyazo.com/ded5a89d3618424bc29ecbf6a270bac2.png)
 
 ## 動作環境
 

@@ -1,7 +1,7 @@
 # SchemUploader
+![LogoArt](https://i.gyazo.com/b5b852f4e74c7d76377c7d5fb37ba17f.png)  
 
 Allows you to upload/download WorldEdit schem files to/from Discord.  
-![2023-03-01_15h05_33](https://user-images.githubusercontent.com/16362824/222058389-8fa598f7-990a-45ad-bb42-8a78609e9212.png)
 
 ## Usage
 
@@ -9,10 +9,11 @@ Allows you to upload/download WorldEdit schem files to/from Discord.
 `/schem_upload <schem_name> [message]`
 - Download
 `/schem_download <schem_name> <schem_file_URL> [-f]`
+![Video](https://i.gyazo.com/683abfa22a46fe11bd3136d0d64da91f.gif)
 
 ### How to get schem file URL
 Right-click on the attached file and click "Copy link"  
-![2023-03-01_15h06_38](https://user-images.githubusercontent.com/16362824/222058621-5f81e3fd-d3e1-408c-ae4b-41366c481684.png)
+![How to Get Link](https://i.gyazo.com/ded5a89d3618424bc29ecbf6a270bac2.png)
 
 ## Requirements
 

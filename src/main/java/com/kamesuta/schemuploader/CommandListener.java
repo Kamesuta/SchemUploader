@@ -61,13 +61,13 @@ public class CommandListener {
             File schemFile = new File(plugin.schematicFolder, schemFileName);
             // Check if the file is included in the directory (to prevent ../ and other path traversal attacks)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
-                sender.sendMessage(plugin.messages.error("error_invalid_folder"));
+                sender.spigot().sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
 
             // Check if the file exists
             if (!schemFile.exists()) {
-                sender.sendMessage(plugin.messages.error("error_not_found", schemFileName));
+                sender.spigot().sendMessage(plugin.messages.error("error_not_found", schemFileName));
                 return true;
             }
 
@@ -77,7 +77,7 @@ public class CommandListener {
 
             // Send a message if it is expected to take some time
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                sender.sendMessage(plugin.messages.info("upload_progress"));
+                sender.spigot().sendMessage(plugin.messages.info("upload_progress"));
             }, 20);
 
             // Upload the schem file asynchronously
@@ -90,7 +90,7 @@ public class CommandListener {
 
                 // Send an error message if the upload fails
                 if (!result.success) {
-                    sender.sendMessage(plugin.messages.error("upload_failed", result.error));
+                    sender.spigot().sendMessage(plugin.messages.error("upload_failed", result.error));
 
                     // Add record to statistics
                     plugin.statistics.actionCounter.increment(Statistics.ActionCounter.ActionType.UPLOAD_FAILURE);
@@ -99,7 +99,7 @@ public class CommandListener {
                 }
 
                 // Send a message when the upload is complete
-                sender.sendMessage(new ComponentBuilder()
+                sender.spigot().sendMessage(new ComponentBuilder()
                         .append(plugin.messages.success("upload_done", schemFileName))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("upload_done_open_url"))))
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, result.url))
@@ -146,24 +146,24 @@ public class CommandListener {
 
             // Check if the file is included in the directory (to prevent ../ and other path traversal attacks)
             if (!schemFile.getParentFile().equals(plugin.schematicFolder)) {
-                sender.sendMessage(plugin.messages.error("error_invalid_folder"));
+                sender.spigot().sendMessage(plugin.messages.error("error_invalid_folder"));
                 return true;
             }
             // If the file exists and force flag is not set, send an error message
             if (!force && schemFile.exists()) {
-                sender.sendMessage(plugin.messages.error("error_already_exists", schemName + ".schem"));
+                sender.spigot().sendMessage(plugin.messages.error("error_already_exists", schemName + ".schem"));
                 return true;
             }
 
             // Check the URL prefix if URL restriction is enabled
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
-                sender.sendMessage(plugin.messages.error("error_url_prefix"));
+                sender.spigot().sendMessage(plugin.messages.error("error_url_prefix"));
                 return true;
             }
 
             // Send a message if it is expected to take some time
             BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                sender.sendMessage(plugin.messages.info("download_progress"));
+                sender.spigot().sendMessage(plugin.messages.info("download_progress"));
             }, 20);
 
             // Download the schem file asynchronously
@@ -177,9 +177,9 @@ public class CommandListener {
                 // Send an error message if the download fails
                 if (!result.success) {
                     if (result.exceededSize) {
-                        sender.sendMessage(plugin.messages.error("error_file_size_exceeded", PluginConfig.downloadMaxSize));
+                        sender.spigot().sendMessage(plugin.messages.error("error_file_size_exceeded", PluginConfig.downloadMaxSize));
                     } else {
-                        sender.sendMessage(plugin.messages.error("download_failed", result.error));
+                        sender.spigot().sendMessage(plugin.messages.error("download_failed", result.error));
                     }
 
                     // Add record to statistics
@@ -189,7 +189,7 @@ public class CommandListener {
                 }
 
                 // Send a message when the download is complete
-                sender.sendMessage(new ComponentBuilder()
+                sender.spigot().sendMessage(new ComponentBuilder()
                         .append(plugin.messages.success("download_done", schemName + ".schem"))
                         .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(plugin.messages.getMessage("download_done_open_folder"))))
                         .event(new ClickEvent(ClickEvent.Action.OPEN_URL, url))

@@ -76,6 +76,7 @@ public final class SchemUploader extends JavaPlugin {
 
         // Statistics
         statistics = new Statistics();
+        statistics.register();
     }
 
     @Override

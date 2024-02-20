@@ -1,5 +1,9 @@
 # SchemUploader
 ![LogoArt](https://i.gyazo.com/b5b852f4e74c7d76377c7d5fb37ba17f.png)  
+[![License: MIT](https://img.shields.io/github/license/Kamesuta/BungeePteroPower?label=License)](LICENSE)
+[![Spigotmc Version](https://img.shields.io/spiget/version/115170?logo=spigotmc&label=Spigotmc%20Version)](https://www.spigotmc.org/resources/schemuploader-transfers-your-schematic-data-across-servers-with-discord.115170/)
+[![Spigotmc Downloads](https://img.shields.io/spiget/downloads/115170?logo=spigotmc&label=Spigotmc%20Downloads)](https://www.spigotmc.org/resources/schemuploader-transfers-your-schematic-data-across-servers-with-discord.115170/)
+[![bStats Servers](https://img.shields.io/bstats/servers/21061?label=bStats%20Servers)](https://bstats.org/plugin/bukkit/SchemUploader/21061)  
 
 Allows you to upload/download WorldEdit schem files to/from Discord.  
 
@@ -9,7 +13,7 @@ Allows you to upload/download WorldEdit schem files to/from Discord.
 `/schem_upload <schem_name> [message]`
 - Download
 `/schem_download <schem_name> <schem_file_URL> [-f]`
-![Video](https://i.gyazo.com/683abfa22a46fe11bd3136d0d64da91f.gif)
+![Video](https://i.gyazo.com/98c1e6c2565a580b6b3d1017228fb513.gif)
 
 ### How to get schem file URL
 Right-click on the attached file and click "Copy link"  

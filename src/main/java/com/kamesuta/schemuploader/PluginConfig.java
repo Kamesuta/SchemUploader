@@ -44,6 +44,11 @@ public class PluginConfig {
     public static String downloadUrlPrefix;
 
     /**
+     * This name is used in error messages when downloading from locations other than the specified prefix
+     */
+    public static String downloadUrlName;
+
+    /**
      * Path to the schematics folder
      */
     public static String fileFolderPath;
@@ -62,6 +67,7 @@ public class PluginConfig {
         downloadMaxSize = config.getLong("download.max-size", -1);
         downloadUrlRestrictionEnabled = config.getBoolean("download.url-restriction.enabled", true);
         downloadUrlPrefix = config.getString("download.url-restriction.prefix");
+        downloadUrlName = config.getString("download.url-restriction.name", "");
         fileFolderPath = config.getString("file.folder-path", "plugins/WorldEdit/schematics");
     }
 

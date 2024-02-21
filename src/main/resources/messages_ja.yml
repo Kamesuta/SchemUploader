@@ -7,7 +7,7 @@ error_not_found: "ファイル %s が存在しません"
 error_not_schematic: "ファイルがschematicファイルではありません"
 error_already_exists: "%s は既に存在します。上書きする場合は -f を指定してください"
 error_file_size_exceeded: "ファイルサイズが大きすぎます (最大 %d Bytes)"
-error_url_prefix: "Discord内の「#schem置き場」チャンネルにあるschematicファイルのみダウンロードできます。誤ったリンクをコピーしている可能性があります。URLを見直してください。"
+error_url_prefix: "Discord内の「%s」チャンネルにあるschematicファイルのみダウンロードできます。誤ったリンクをコピーしている可能性があります。URLを見直してください。"
 
 upload_progress: "アップロード中..."
 upload_done: "%s をアップロードしました"

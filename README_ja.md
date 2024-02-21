@@ -41,7 +41,7 @@ WorldEditのschemファイルをDiscordにアップロード/ダウンロード�
   - `https://cdn.discordapp.com/attachments/<チャンネルID>/` を指定すれば特定のDiscordチャンネルのみからダウンロードさせることができます。
 - `download.url-restriction.name`: ダウンロード場所の名前
   - 上記のプレフィックス以外からダウンロードした場合に表示されるエラーにnameが使用されます。
-  - `#schem置き場` と設定した場合、`#schem置き場 にあるファイルのみダウンロードできます` とエラーメッセージが表示されます。
+  - `#schem置き場` と設定した場合、`Discord内の「#schem置き場」チャンネルにあるschematicファイルのみダウンロードできます` とエラーメッセージが表示されます。
 
 ### 全設定
 ```yaml
@@ -67,7 +67,9 @@ download:
     # 基本的に↓の xxxxxxxxxxxxxxxxxx の部分を自分のチャンネルIDに変えるだけでOK
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
     # ダウンロード用のURL制限場所の名前 (エラー時に案内が表示される)
-    name: Discord内の「#schem置き場」チャンネル
+    # 上記のプレフィックス以外からダウンロードした場合に表示されるエラーにnameが使用されます。
+    # `#schem置き場` と設定した場合、`#schem置き場 にあるファイルのみダウンロードできます` とエラーメッセージが表示されます。
+    name: #schem置き場
 ```
 
 ## 権限

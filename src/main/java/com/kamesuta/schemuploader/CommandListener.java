@@ -157,7 +157,7 @@ public class CommandListener {
 
             // Check the URL prefix if URL restriction is enabled
             if (PluginConfig.downloadUrlRestrictionEnabled && !url.startsWith(PluginConfig.downloadUrlPrefix)) {
-                sender.spigot().sendMessage(plugin.messages.error("error_url_prefix"));
+                sender.spigot().sendMessage(plugin.messages.error("error_url_prefix", PluginConfig.downloadUrlName));
                 return true;
             }
 

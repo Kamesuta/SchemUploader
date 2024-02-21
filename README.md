@@ -42,7 +42,7 @@ You can restrict downloads to specific Discord channels or sites by enabling thi
   - By specifying `https://cdn.discordapp.com/attachments/<channel_ID>/`, you can restrict downloads to specific Discord channels.
 - `download.url-restriction.name`: Name of the download location
   - This name is used in error messages when downloading from locations other than the specified prefix.
-  - If set to `#schem-storage`, the error message will display as "You can only download files from #schem-storage channel".
+  - If set to `#schem-storage`, the error message will display as "You can only download schematic files from the '#schem-storage' channel within Discord".
 
 ### Full configuration
 ```yaml
@@ -67,6 +67,10 @@ download:
     # Prefix for URL restrictions (Note: For Discord attachment URLs, make sure it starts with cdn. and ends with /)
     # Usually, you just need to replace the xxxxxxxxxxxxxxxxxx part with your own channel ID
     prefix: https://cdn.discordapp.com/attachments/xxxxxxxxxxxxxxxxxx/
+    # The name of the download location (displayed in the error message)
+    # This name is used in error messages when downloading from locations other than the specified prefix.
+    # If set to #schem-storage, the error message will display as "You can only download schematic files from the '#schem-storage' channel within Discord"
+    name: "#schem-storage"
 file:
   # Path to the schematics folder
   folder-path: plugins/WorldEdit/schematics

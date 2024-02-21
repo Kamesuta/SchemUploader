@@ -7,7 +7,7 @@ error_not_found: "File %s does not exist"
 error_not_schematic: "The file is not a schematic file"
 error_already_exists: "%s already exists. Please specify -f to overwrite"
 error_file_size_exceeded: "File size exceeds maximum limit (%d Bytes)"
-error_url_prefix: "You can only download schematic files from the '#schem-storage' channel within Discord. You may have copied a wrong link. Please review the URL."
+error_url_prefix: "You can only download schematic files from the '%s' channel within Discord. You may have copied a wrong link. Please review the URL."
 
 upload_progress: "Uploading..."
 upload_done: "Uploaded %s"

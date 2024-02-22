@@ -83,7 +83,7 @@ file:
 
 ## About Statistics Data
 
-BungeePteroPower collects anonymous statistical data using [bStats](https://bstats.org/).  
+SchemUploader collects anonymous statistical data using [bStats](https://bstats.org/).  
 You can find the statistics data [here](https://bstats.org/plugin/bukkit/SchemUploader/21061).
 
 bStats is used to understand the usage of the plugin and help improve it.  
